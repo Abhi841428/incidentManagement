@@ -37,21 +37,26 @@ public class IncidentService {
         incident.setPriority(incidentDto.getPriority());
         incident.setIncidentStatus(incidentDto.getIncidentStatus());
 
-        long maxId = incidentRepository.findMaxId();
-        String inciId = incidentIdGen(maxId);
-        incident.setIncidentId(inciId);
+        Long maxId = getMaxId();
+
+        if(maxId == null){
+            Long RmdId =(10000+0l);
+            incident.setIncidentId("RMD"+RmdId+ Util.getCurrentYear());
+        }
+        else {
+            Long RmdId = (10000 + maxId);
+            incident.setIncidentId("RMD" + RmdId + Util.getCurrentYear());
+        }
         return incidentRepository.save(incident);
 
 
     }
 
-    public String incidentIdGen(Long id){
-
-        String prefix = "RMG";
-        Long currentYear = Util.getCurrentYear();
-        Long random = 10000l;
-        return(prefix+(random+id+1) + currentYear).toString();
+    public Long getMaxId(){
+       return incidentRepository.getMaxId();
     }
+
+
 
 
 

@@ -6,10 +6,8 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface IncidentRepository extends JpaRepository<Incident , Long> {
 
-//    Optional<Incident> findByIncidentId(Long id)
-    @Query("Select max(i.id) from Incident i")
-    long findMaxId();
-
+@Query("select Max(id) from Incident")
+    Long getMaxId();
 }
 
 
